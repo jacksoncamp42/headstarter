@@ -12,6 +12,8 @@ const FileUpload = () => {
   const [uploadPercentage, setUploadPercentage] = useState(0);
   const [items, setItems] = useState([]);
   const [submitted, setSubmitted] = useState(false);
+  const [searchCategory, setSearchCategory] = useState("first_name");
+  const [filter, setFilter] = useState("");
 
   const onChange = (e) => {
     const file = e.target.files[0];
@@ -24,18 +26,12 @@ const FileUpload = () => {
     const promise = new Promise((resolve, reject) => {
       const fileReader = new FileReader();
       fileReader.readAsArrayBuffer(file);
-
       fileReader.onload = (e) => {
         const bufferArray = e.target.result;
-
         const wb = XLSX.read(bufferArray, { type: "buffer" });
-
         const wsname = wb.SheetNames[0];
-
         const ws = wb.Sheets[wsname];
-
         const data = XLSX.utils.sheet_to_json(ws);
-
         resolve(data);
       };
 
@@ -86,6 +82,10 @@ const FileUpload = () => {
     }
   };
 
+  const changeFilter = (e) => {
+    setFilter(e.target.value);
+  };
+
   return (
     <Fragment>
       {message ? <Message msg={message} /> : null}
@@ -110,29 +110,99 @@ const FileUpload = () => {
           className="btn btn-primary btn-block mt-4"
         />
       </form>
+      <div className="input-group mb-3">
+        <div className="input-group-prepend">
+          <button
+            className="btn btn-outline-secondary dropdown-toggle"
+            type="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            {searchCategory}
+          </button>
+          <div className="dropdown-menu">
+            <button
+              className="dropdown-item"
+              type="button"
+              onClick={() => setSearchCategory("first_name")}
+            >
+              first_name
+            </button>
+            <button
+              className="dropdown-item"
+              type="button"
+              onClick={() => setSearchCategory("last_name")}
+            >
+              last_name
+            </button>
+            <button
+              className="dropdown-item"
+              type="button"
+              onClick={() => setSearchCategory("company")}
+            >
+              company
+            </button>
+            <button
+              className="dropdown-item"
+              type="button"
+              onClick={() => setSearchCategory("job")}
+            >
+              job
+            </button>
+            <button
+              className="dropdown-item"
+              type="button"
+              onClick={() => setSearchCategory("skill")}
+            >
+              skill
+            </button>
+            <button
+              className="dropdown-item"
+              type="button"
+              onClick={() => setSearchCategory("city")}
+            >
+              city
+            </button>
+          </div>
+        </div>
+        <input
+          type="text"
+          className="form-control"
+          aria-label="Text input with dropdown button"
+          onChange={changeFilter}
+        />
+      </div>
       {submitted ? (
         <table className="table container">
           <thead>
             <tr>
-              <th scope="col">First Name</th>
-              <th scope="col">Last Name</th>
-              <th scope="col">Company</th>
-              <th scope="col">Job</th>
-              <th scope="col">Skill</th>
-              <th scope="col">City</th>
+              <th scope="col">first_name</th>
+              <th scope="col">last_name</th>
+              <th scope="col">company</th>
+              <th scope="col">job</th>
+              <th scope="col">skill</th>
+              <th scope="col">city</th>
             </tr>
           </thead>
           <tbody>
-            {items.map((d) => (
-              <tr key={d.id}>
-                <th>{d.first_name}</th>
-                <th>{d.last_name}</th>
-                <th>{d.company}</th>
-                <th>{d.job}</th>
-                <td>{d.skill}</td>
-                <td>{d.city}</td>
-              </tr>
-            ))}
+            {items
+              .filter(
+                (item) =>
+                  item[`${searchCategory}`]
+                    .substring(0, filter.length)
+                    .toLowerCase() === filter.toLowerCase()
+              )
+              .map((d) => (
+                <tr key={d.id}>
+                  <th>{d.first_name}</th>
+                  <th>{d.last_name}</th>
+                  <th>{d.company}</th>
+                  <th>{d.job}</th>
+                  <td>{d.skill}</td>
+                  <td>{d.city}</td>
+                </tr>
+              ))}
           </tbody>
         </table>
       ) : (
