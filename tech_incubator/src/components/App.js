@@ -4,6 +4,7 @@ import React from "react";
 import { AuthProvider } from "../contexts/AuthContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import StudentDashboard from "./StudentDashboard";
+import CompanyDashboard from "./CompanyDashboard";
 import PrivateRoute from "./PrivateRoute";
 import ForgotPassword from "./ForgotPassword";
 import Login from "./Login";
@@ -25,6 +26,15 @@ const App = () => {
                   element={
                     <PrivateRoute>
                       <StudentDashboard />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  exact
+                  path="/company-dashboard"
+                  element={
+                    <PrivateRoute>
+                      <CompanyDashboard />
                     </PrivateRoute>
                   }
                 />
