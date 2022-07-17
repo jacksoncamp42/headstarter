@@ -5,6 +5,8 @@ import { useAuth } from "../contexts/AuthContext";
 import { db } from "../firebase";
 import { uid } from "uid";
 import { set, ref } from "firebase/database";
+import { CompanyHeader } from "../components/CompanyHeader";
+import firebase from "../firebase";
 
 const CompanyDashboard = () => {
   const [error, setError] = useState("");
@@ -31,23 +33,19 @@ const CompanyDashboard = () => {
   }
 
   return (
-    <>
-      <Card>
-        <Card.Body>
-          <h2 className="text-center mb-4">Company Dashboard</h2>
-          <h2 className="text-center mb-4">Add Task</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
-        </Card.Body>
-      </Card>
+    <div>
+      <CompanyHeader />
       <div className="w-100 text-center mt-2">
         <Button variant="link" onClick={handleLogout}>
           Log Out
         </Button>
+      </div>
+      <div className="w-100 text-center mt-2">
         <Button variant="link" onClick={switchDashboard}>
           Go to student dashboard
         </Button>
       </div>
-    </>
+    </div>
   );
 };
 
