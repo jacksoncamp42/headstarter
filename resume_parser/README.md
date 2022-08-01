@@ -1,2 +1,2 @@
 # Resume Parser
-![resume_parser_demo](https://user-images.githubusercontent.com/37753577/182222912-ba8047be-dc86-4aa1-87c1-3b784557f697.gif | width = 1000)
+![ezgif-2-47f0dbfcdb](https://user-images.githubusercontent.com/37753577/182227486-a3fdafe4-aa59-4a26-9a1a-191d7efb88bf.gif)
